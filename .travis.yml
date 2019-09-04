@@ -35,12 +35,12 @@ jobs:
         - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH        
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
     - stage: Deploy latest
-      if: "$TRAVIS_BRANCH" = "$VERSION"
+      if: $TRAVIS_BRANCH = "v1.15.3"
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
         - docker pull $IMAGE_NAME:$TRAVIS_BRANCH
-        - docker tag $IMAGE_NAME $IMAGE_NAME:latest
-        - docker push $IMAGE_NAME:latest
+        - docker tag $IMAGE_NAME "$IMAGE_NAME":latest
+        - docker push "$IMAGE_NAME":latest
     - stage: Cleanup
       script:
         - echo "NOT IMPLEMENTED YET"
