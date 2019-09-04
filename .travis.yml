@@ -2,13 +2,11 @@ language: minimal
 os:
   - linux
 dist: bionic
-branches:
-  only:
-    - master
 services:
   - docker
 env:
-  - VERSION=v1.16.3
+  - VERSION=v1.15.3
+
 stages:
   - name: Build
   - name: Test
