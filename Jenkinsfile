@@ -15,21 +15,20 @@ pipeline {
       parallel {
         stage('Build') {
           steps {
-            sh 'def customImage = docker.build("k8s-cli:${env.BUILD_ID}")'
+            def customImage = docker.build("k8s-cli:${env.BUILD_ID}")
           }
         }
         stage('Verify') {
           steps {
-            sh '''customImage.inside {
-    version --client
-}'''
+            customImage.inside {"version --client"}
             }
           }
         }
       }
       stage('Push') {
         steps {
-          sh 'customImage.push(${env.BUILD_ID})'
+          withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
+          customImage.push(${env.BUILD_ID})
         }
       }
     }
