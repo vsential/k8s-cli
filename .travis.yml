@@ -39,7 +39,7 @@ jobs:
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
         - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
-        - docker tag $IMAGE_NAME:$TRAVIS_BRANCH $IMAGE_NAME:latest
+        - docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:latest
         - docker push $IMAGE_NAME:latest
     - stage: Cleanup
       script:
