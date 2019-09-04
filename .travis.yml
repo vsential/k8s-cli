@@ -14,6 +14,7 @@ stages:
   - name: Build
   - name: Test
   - name: Deploy
+  - name: Cleanup
 
 jobs:
   include:
@@ -34,3 +35,6 @@ jobs:
         - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
         - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH        
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
+    - stage: Cleanup
+      script:
+        - curl -u $REGISTRY_USER:$REGISTRY_PASS -X "DELETE" https://cloud.docker.com/v2/repositories/$REGISTRY_USER/$IMAGE_NAME/tags/$TRAVIS_COMMIT/
