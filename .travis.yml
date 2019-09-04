@@ -31,5 +31,6 @@ jobs:
     - stage: Deploy
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+        - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
         - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH        
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH

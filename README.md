@@ -1,22 +1,19 @@
 # Kubernetes Client
 
+[![Build Status](https://travis-ci.org/vsential/k8s-cli.svg?branch=master)](https://travis-ci.org/vsential/k8s-cli)
+[![Release](https://img.shields.io/github/v/release/vsential/k8s-cli?style=plastic)](https://github.com/vsential/k8s-cli/releases)
+
 # Supported tags and respective `Dockerfile` links
 * `v1.15.3`, `latest`    [(v1.15.3/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.15.3/Dockerfile)
 * `v1.14.6`,    [(v1.14.6/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.14.6/Dockerfile)
 * `v1.13.10`,    [(v1.13.10/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.13.10/Dockerfile)
-* `v1.12.10`,    [(v1.12.10/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.12.10/Dockerfile)
-* `v1.11.9`,    [(v1.11.9/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.11.9/Dockerfile)
-* `v1.10.12`,   [(v1.10.12/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.10.12/Dockerfile)
 
 
 ## Overview
 This container provides the Kubernetes client kubectl which can be used to interact with a Kubernetes cluster
 
-## Build
-`make docker_build`
-
 ## Run
-`docker run --rm lachlanevenson/k8s-kubectl:``git rev-parse --abbrev-ref HEAD`` --server=http://<server-name>:8080 get pods`
+`docker run --rm jamesbowling/k8s-cli:``git rev-parse --abbrev-ref HEAD`` --server=http://<server-name>:8080 get pods`
 
 ## Data Container
 
@@ -44,4 +41,3 @@ rm ./Dockerfile.data-container
 ```
 docker run --rm -it --volumes-from data k8s/kubectl:<tag> --server=http://<server-name>:8080 create -f /data/controller.yml
 ```
-
