@@ -7,7 +7,8 @@ branches:
     - master
 services:
   - docker
-
+env:
+  - VERSION=v1.15.3
 stages:
   - name: Build
   - name: Test
