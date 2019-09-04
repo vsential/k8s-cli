@@ -1,0 +1,48 @@
+language: minimal
+os:
+  - linux
+dist: bionic
+branches:
+  except:
+    - master
+services:
+  - docker
+
+stages:
+  - name: Build
+  - name: Test
+  - name: Deploy
+  - name: Deploy latest
+  - name: Cleanup
+
+jobs:
+  include:
+    - stage: Build
+      script:
+        - docker build -t $IMAGE_NAME .
+        - git_sha="$(git rev-parse --short HEAD)"
+        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"        
+        - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_COMMIT
+        - docker push $IMAGE_NAME:$TRAVIS_COMMIT
+    - stage: Test
+      script:
+        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+        - docker run $IMAGE_NAME:$TRAVIS_COMMIT version --client
+    - stage: Deploy
+      script:
+        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+        - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
+        - docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:$TRAVIS_BRANCH        
+        - docker push $IMAGE_NAME:$TRAVIS_BRANCH
+    - stage: Deploy latest
+      if: branch = env(VERSION)
+      script:
+        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+        - docker pull $IMAGE_NAME:$TRAVIS_BRANCH
+        - docker tag $IMAGE_NAME:$TRAVIS_BRANCH $IMAGE_NAME:latest
+        - docker push $IMAGE_NAME:latest
+    - stage: Cleanup
+      script:
+        #- TOKEN = $(curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"username":"$REGISTRY_USER","password":"$REGISTRY_PASS"}' https://hub.docker.com/v2/users/login/)
+        #- curl -i -X "DELETE" -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/$REGISTRY_USER/$IMAGE_NAME/tags/$TRAVIS_COMMIT/
+        - echo "NOT IMPLEMENTED. NEEDS SOME LOVE!!!!"
