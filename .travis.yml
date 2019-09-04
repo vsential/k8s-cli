@@ -6,12 +6,18 @@ branches:
   except:
     - master
 env:
-  - IMAGE_NAME=jamesbowling/k8s-cli
+  - IMAGE_NAME=$REGISTRY_USER/k8s-cli
 services:
   - docker
 install: []
-script:
-  - docker build -t $IMAGE_NAME .
+jobs:
+  include:
+    - stage: Build Docker Image
+      script:
+        - docker build -t $IMAGE_NAME .
+    - stage: Test Docker Image
+      script:
+        - docker run $IMAGE_NAME:$TRAVIS_BRANCH version --client
 
 before_deploy:
   - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
