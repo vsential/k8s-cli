@@ -39,6 +39,6 @@ jobs:
       if: $TRAVIS_BRANCH = $VERSION
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker pull $IMAGE_NAME:$TRAVIS_BRANCH
-        - docker tag $IMAGE_NAME $IMAGE_NAME:latest
+        - docker pull "$IMAGE_NAME":"$TRAVIS_BRANCH"
+        - docker tag $IMAGE_NAME "$IMAGE_NAME":latest
         - docker push "$IMAGE_NAME":latest
