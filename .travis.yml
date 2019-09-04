@@ -45,4 +45,4 @@ jobs:
         - docker push $IMAGE_NAME:latest
     - stage: Cleanup
       script:
-        - curl -u $REGISTRY_USER:$REGISTRY_PASS -X 'DELETE' https://cloud.docker.com/v2/repositories/"$REGISTRY_USER"/"$IMAGE_NAME"/tags/"$TRAVIS_COMMIT"/
+        - curl -u "$REGISTRY_USER":"$REGISTRY_PASS" -X "DELETE" 'https://cloud.docker.com/v2/repositories/"$REGISTRY_USER"/"$IMAGE_NAME"/tags/"$TRAVIS_COMMIT"/'
