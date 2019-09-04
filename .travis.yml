@@ -6,7 +6,7 @@ branches:
   except:
     - master
 env:
-  - IMAGE_NAME=$REGISTRY_USER/k8s-cli
+  - IMAGE_NAME="$REGISTRY_USER"/k8s-cli
 services:
   - docker
 
@@ -41,4 +41,4 @@ jobs:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
         - docker pull $IMAGE_NAME:$TRAVIS_BRANCH
         - docker tag $IMAGE_NAME $IMAGE_NAME:latest
-        - docker push $IMAGE_NAME:latest
+        - docker push "$IMAGE_NAME":latest
