@@ -21,13 +21,15 @@ jobs:
       script:
         - docker build -t $IMAGE_NAME .
         - git_sha="$(git rev-parse --short HEAD)"
-        - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH
-        - docker tag $IMAGE_NAME $IMAGE_NAME:${git_sha}-release
+        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"        
+        - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_COMMIT
+        - docker push $IMAGE_NAME:$TRAVIS_COMMIT
     - stage: Test
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker run $IMAGE_NAME:$TRAVIS_BRANCH version --client
+        - docker run $IMAGE_NAME:$TRAVIS_COMMIT version --client
     - stage: Deploy
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+        - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH        
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
