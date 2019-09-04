@@ -2,7 +2,7 @@ FROM alpine
 
 LABEL maintainer="James Bowling <jbowling@vmware.com>"
 
-ENV KUBE_LATEST_VERSION="v1.14.6"
+ENV KUBE_LATEST_VERSION="v1.15.3"
 
 RUN apk add --update ca-certificates \
  && apk add --update -t deps curl \
