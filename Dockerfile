@@ -2,15 +2,6 @@ FROM alpine
 
 LABEL maintainer="James Bowling <jbowling@vmware.com>"
 
-ARG VCS_REF
-ARG BUILD_DATE
-
-# Metadata
-LABEL org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/vsential/k8s-cli" \
-      org.label-schema.build-date=$BUILD_DATE \
-      org.label-schema.docker.dockerfile="/Dockerfile"
-
 ENV KUBE_LATEST_VERSION="v1.15.3"
 
 RUN apk add --update ca-certificates \
