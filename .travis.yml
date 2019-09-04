@@ -16,13 +16,13 @@ stages:
 
 jobs:
   include:
-    - stage: Build docker image
+    - stage: Build image
       script:
         - docker build -t $IMAGE_NAME .
         - git_sha="$(git rev-parse --short HEAD)"
         - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH
         - docker tag $IMAGE_NAME $IMAGE_NAME:${git_sha}-release
-    - stage: Test docker image
+    - stage: Test image
       script:
         - docker run $IMAGE_NAME:$TRAVIS_BRANCH version --client
 
