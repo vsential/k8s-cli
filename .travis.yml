@@ -9,23 +9,27 @@ env:
   - IMAGE_NAME=$REGISTRY_USER/k8s-cli
 services:
   - docker
-install: []
+
+stages:
+  - name: Build image
+  - name: Test image
+
 jobs:
   include:
-    - stage: Build Docker Image
+    - stage: Build docker image
       script:
         - docker build -t $IMAGE_NAME .
-    - stage: Test Docker Image
+        - git_sha="$(git rev-parse --short HEAD)"
+        - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH
+        - docker tag $IMAGE_NAME $IMAGE_NAME:${git_sha}-release
+    - stage: Test docker image
       script:
         - docker run $IMAGE_NAME:$TRAVIS_BRANCH version --client
 
-before_deploy:
-  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-  - git_sha="$(git rev-parse --short HEAD)"
-  - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_BRANCH
-  - docker tag $IMAGE_NAME $IMAGE_NAME:${git_sha}-release
-deploy:
+after_success:
   provider: script
-  script: docker push $IMAGE_NAME:$TRAVIS_BRANCH
+  script: 
+    - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+    - docker push $IMAGE_NAME:$TRAVIS_BRANCH
   on:
     branch: $TRAVIS_BRANCH
