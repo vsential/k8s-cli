@@ -8,7 +8,7 @@ branches:
 services:
   - docker
 env:
-  - VERSION=v1.15.3
+  - VERSION=v1.16.3
 stages:
   - name: Build
   - name: Test
@@ -30,6 +30,7 @@ jobs:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
         - docker run $IMAGE_NAME:$TRAVIS_COMMIT version --client
     - stage: Deploy
+      if: branch != master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
         - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
