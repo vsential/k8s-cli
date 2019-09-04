@@ -1,7 +1,5 @@
 # Kubernetes Client
 
-### Container Details
-
 # Supported tags and respective `Dockerfile` links
 * `v1.15.3`, `latest`    [(v1.15.3/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.15.3/Dockerfile)
 * `v1.14.6`,    [(v1.14.6/Dockerfile)](https://github.com/lachie83/k8s-kubectl/blob/v1.14.6/Dockerfile)
