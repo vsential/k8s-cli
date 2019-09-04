@@ -5,8 +5,6 @@ dist: bionic
 branches:
   except:
     - master
-env:
-  - IMAGE_NAME="$REGISTRY_USER"/k8s-cli
 services:
   - docker
 
@@ -15,6 +13,7 @@ stages:
   - name: Test
   - name: Deploy
   - name: Deploy latest
+  - name: Cleanup
 
 jobs:
   include:
