@@ -3,7 +3,7 @@ os:
   - linux
 dist: bionic
 branches:
-  except:
+  only:
     - master
 services:
   - docker
