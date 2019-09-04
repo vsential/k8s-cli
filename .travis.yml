@@ -11,15 +11,15 @@ services:
   - docker
 install: []
 script:
-  - docker build -t ${IMAGE_NAME} .
+  - docker build -t $IMAGE_NAME .
 
 before_deploy:
-  - docker login -u "${REGISTRY_USER}" -p "${REGISTRY_PASS}"
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
   - git_sha="$(git rev-parse --short HEAD)"
-  - docker tag "${IMAGE_NAME}:${TRAVIS_BRANCH}"
-  - docker tag "${IMAGE_NAME}:${git_sha}-release"
+  - docker tag "$IMAGE_NAME:$TRAVIS_BRANCH"
+  - docker tag "$IMAGE_NAME:${git_sha}-release"
 deploy:
   provider: script
-  script: docker push "${IMAGE_NAME}:${TRAVIS_BRANCH}"
+  script: docker push "$IMAGE_NAME:$TRAVIS_BRANCH"
   on:
-    branch: ${TRAVIS_BRANCH}
+    branch: $TRAVIS_BRANCH
