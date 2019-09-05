@@ -14,8 +14,13 @@ pipeline {
     stage('Build') {
       parallel {
         stage('Build') {
+          agent {
+            dockerfile {
+              filename 'Dockerfile'
+            }
+          }
           steps {
-            def customImage = docker.build("k8s-cli:${env.BUILD_ID}")
+            
           }
         }
         stage('Verify') {
