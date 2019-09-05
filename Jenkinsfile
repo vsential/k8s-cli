@@ -29,7 +29,7 @@ pipeline {
     stage('Verify') {
       steps {
         script {
-          customImage.withRun("", "version --client")
+          customImage.inside("kubectl version --client")
         }
 
       }
@@ -52,7 +52,5 @@ pipeline {
   environment {
     customImage = ''
     VERSION = ''
-    registryUrl = 'https://cloud.docker.com'
-    credentialsId = 'hub-jamesbowling'
   }
 }
