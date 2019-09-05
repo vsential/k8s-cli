@@ -5,8 +5,8 @@ pipeline {
     }
   }
   environment {
-    def customImage
-    def VERSION
+    def customImage = ''
+    def VERSION = ''
   }
   stages {
     stage('Prep') {
