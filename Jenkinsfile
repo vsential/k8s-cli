@@ -15,7 +15,11 @@ pipeline {
       steps {
         script {
           if (! env.VERSION) {
-            VERSION = sh(script: "date +%Y%j%H", returnStdout: true).trim()
+            // calculate GIT lastest commit short-hash
+            gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            shortCommitHash = gitCommitHash.take(7)
+            // calculate a sample version tag
+            VERSION = shortCommitHash
           }
         }
       }
@@ -24,7 +28,7 @@ pipeline {
       steps {
         git(url: 'https://github.com/vsential/k8s-cli', branch: 'jenkins-dev', changelog: true)
         script {
-          customImage = docker.build("k8s-cli:${VERSION}${env.BUILD_ID}")
+          customImage = docker.build("k8s-cli:${VERSION}")
         }
       }
     }
@@ -38,9 +42,8 @@ pipeline {
     stage('Push') {
       steps {
         script {
-          docker.withRegistry("${env.registryUrl}", "${env.credentialsId}") {
-            customImage.build("k8s-cli:${VERSION}${env.BUILD_ID}")
-            customImage.push()
+          docker.withRegistry(${registryUrl}, ${credentialsId}) {
+            customImage.push("${VERSION}")
           }
         }
       }
