@@ -1,3 +1,5 @@
+def customImage
+
 pipeline {
   agent {
     node {
@@ -9,7 +11,6 @@ pipeline {
       steps {
         git(url: 'https://github.com/vsential/k8s-cli', branch: 'jenkins-dev', changelog: true)
         script {
-          def customImage
           customImage = docker.build("k8s-cli:${env.BUILD_ID}")
         }
       }
@@ -17,15 +18,15 @@ pipeline {
     stage('Verify') {
       steps {
         script {
-          customImage.inside {"version --client"}
+          ${customImage}.inside {"version --client"}
         }
       }
     }
     stage('Push') {
       steps {
+        withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
         script {
-          withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
-          customImage.push(${env.BUILD_ID})
+          ${customImage}.push(${env.BUILD_ID})
         }
       }
     }
