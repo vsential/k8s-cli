@@ -9,10 +9,10 @@ pipeline {
     stage('Prep') {
       steps {
         script {
-          if (! env.VERSION) {
+          if (! env.version) {
             gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             shortCommitHash = gitCommitHash.take(7)
-            VERSION = shortCommitHash
+            version = shortCommitHash
           }
         }
 
@@ -21,7 +21,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          customImage = docker.build("${registry}/${image}:${VERSION}")
+          customImage = docker.build("${registry}/${image}:${version}")
         }
 
       }
@@ -35,9 +35,6 @@ pipeline {
       }
     }
     stage('Push') {
-      environment {
-        credentialsId = 'hub-jamesbowling'
-      }
       steps {
         script {
           docker.withRegistry('', env.credentialsId) {
@@ -50,7 +47,8 @@ pipeline {
   }
   environment {
     customImage = ''
-    VERSION = ''
+    version = ''
+    credentialsId = 'hub-jamesbowling'
     registry = 'jamesbowling'
     image = 'k8s-cli'
   }
