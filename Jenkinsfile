@@ -7,6 +7,8 @@ pipeline {
   environment {
     def customImage = ''
     def VERSION = ''
+    def registryUrl = 'https://hub.docker.com'
+    def credentialsId = 'hub-jamesbowling'
   }
   stages {
     stage('Prep') {
@@ -36,7 +38,7 @@ pipeline {
     stage('Push') {
       steps {
         script {
-          docker.withRegistry('https://hub.docker.com', 'hub-jamesbowling') {
+          docker.withRegistry("${registryUrl}", "${credentialsId}") {
             customImage.push("${VERSION}${env.BUILD_ID}")
           }
         }
