@@ -48,7 +48,10 @@ pipeline {
         }
         stage('Notify') {
           steps {
-            slackSend(token: 'N4xm9fsLwRe0cpKW10JJGRUT', teamDomain: 'vsential', channel: '#jenkins-notif', username: 'jenkins')
+            script {
+              slackSend "Build Completed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            }
+
           }
         }
       }
