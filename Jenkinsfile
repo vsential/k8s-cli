@@ -19,6 +19,9 @@ pipeline {
               filename 'Dockerfile'
             }
           }
+          steps {
+            sh "echo BUILDING Dockerfile!"
+          }
         }
         stage('Verify') {
           steps {
