@@ -13,7 +13,7 @@ pipeline {
       steps {
         script {
           if (! env.VERSION) {
-            VERSION = sh(script: "date", returnStdout: true).trim()
+            VERSION = sh(script: "date +%Y%j%H", returnStdout: true).trim()
           }
         }
       }
