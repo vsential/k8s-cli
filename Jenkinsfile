@@ -1,11 +1,5 @@
 pipeline {
-  agent any
-  environment {
-    def customImage = ''
-    def VERSION = ''
-    def registryUrl = 'https://hub.docker.com'
-    def credentialsId = 'hub-jamesbowling'
-  }
+  agent none
   stages {
     stage('Prep') {
       steps {
@@ -18,6 +12,7 @@ pipeline {
             VERSION = shortCommitHash
           }
         }
+
       }
     }
     stage('Build') {
@@ -25,6 +20,7 @@ pipeline {
         script {
           customImage = docker.build("k8s-cli:${VERSION}")
         }
+
       }
     }
     stage('Verify') {
@@ -32,16 +28,24 @@ pipeline {
         script {
           customImage.run("", "version --client")
         }
+
       }
     }
     stage('Push') {
       steps {
         script {
-            docker.withRegistry("${registryUrl}", "${credentialsId}") {
-              customImage.push("${VERSION}")
-            }
+          docker.withRegistry("${registryUrl}", "${credentialsId}") {
+            customImage.push("${VERSION}")
+          }
         }
+
       }
     }
+  }
+  environment {
+    customImage = ''
+    VERSION = ''
+    registryUrl = 'https://hub.docker.com'
+    credentialsId = 'hub-jamesbowling'
   }
 }
