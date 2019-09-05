@@ -41,7 +41,7 @@ pipeline {
       }
       steps {
         script {
-          docker.withRegistry("${registryUrl}", "${credentialsId}") {
+          docker.withRegistry(env.registryUrl, env.credentialsId) {
             customImage.push("${VERSION}")
           }
         }
