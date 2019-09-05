@@ -29,7 +29,7 @@ pipeline {
     stage('Verify') {
       steps {
         script {
-          customImage.run("version --client")
+          customImage.run("k8s-cli:${VERSION}${env.BUILD_ID}", "version --client")
         }
       }
     }
@@ -37,7 +37,7 @@ pipeline {
       steps {
         withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
         script {
-          customImage.push(${env.BUILD_ID})
+          customImage.push("${VERSION}${env.BUILD_ID}")
         }
       }
     }
