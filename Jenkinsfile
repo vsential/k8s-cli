@@ -58,6 +58,7 @@ curl -i -X DELETE -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}"
     version = ''
     credentialsId = 'hub-jamesbowling'
     registry = 'jamesbowling'
+    registryPass = '8es&ENav'
     image = 'k8s-cli'
   }
 }
