@@ -25,15 +25,19 @@ pipeline {
         }
         stage('Verify') {
           steps {
-            customImage.inside {"version --client"}
+            script {
+              customImage.inside {"version --client"}
             }
           }
         }
       }
+    }
       stage('Push') {
         steps {
-          withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
-          customImage.push(${env.BUILD_ID})
+          script {
+            withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
+            customImage.push(${env.BUILD_ID})
+          }
         }
       }
     }
