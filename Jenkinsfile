@@ -36,8 +36,9 @@ pipeline {
     stage('Push') {
       steps {
         script {
-          docker.withRegistry('https://hub.docker.com', 'hub-jamesbowling')
-          customImage.push("${VERSION}${env.BUILD_ID}")
+          docker.withRegistry('https://hub.docker.com', 'hub-jamesbowling') {
+            customImage.push("${VERSION}${env.BUILD_ID}")
+          }
         }
       }
     }
