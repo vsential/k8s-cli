@@ -21,7 +21,7 @@ pipeline {
     stage('Build') {
       steps {
         script {
-          customImage = docker.build("k8s-cli:${VERSION}")
+          customImage = docker.build("${registry}/${image}:${VERSION}")
         }
 
       }
@@ -37,13 +37,10 @@ pipeline {
     stage('Push') {
       environment {
         credentialsId = 'hub-jamesbowling'
-        registry = 'jamesbowling'
-        image = 'k8s-cli'
       }
       steps {
         script {
           docker.withRegistry('', env.credentialsId) {
-            customImage.tag("${registry}/${env.image}:${VERSION}")
             customImage.push()
           }
         }
@@ -54,5 +51,7 @@ pipeline {
   environment {
     customImage = ''
     VERSION = ''
+    registry = 'jamesbowling'
+    image = 'k8s-cli'
   }
 }
