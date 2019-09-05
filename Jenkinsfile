@@ -1,9 +1,5 @@
 pipeline {
-  agent {
-    node {
-      label 'docker-build'
-    }
-  }
+  agent any
   environment {
     def customImage = ''
     def VERSION = ''
@@ -41,9 +37,9 @@ pipeline {
     stage('Push') {
       steps {
         script {
-          docker.withRegistry(registryUrl, credentialsId) {
-            customImage.push("${VERSION}")
-          }
+            docker.withRegistry("${registryUrl}", "${credentialsId}") {
+              customImage.push("${VERSION}")
+            }
         }
       }
     }
