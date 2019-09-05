@@ -19,9 +19,6 @@ pipeline {
               filename 'Dockerfile'
             }
           }
-          steps {
-            
-          }
         }
         stage('Verify') {
           steps {
