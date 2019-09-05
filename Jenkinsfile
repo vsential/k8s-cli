@@ -35,22 +35,13 @@ pipeline {
       }
     }
     stage('Push') {
-      parallel {
-        stage('Push') {
-          steps {
-            script {
-              docker.withRegistry('', env.credentialsId) {
-                customImage.push()
-              }
-            }
+      steps {
+        script {
+          docker.withRegistry('', env.credentialsId) {
+            customImage.push()
+          }
+        }
 
-          }
-        }
-        stage('Notify') {
-          steps {
-            slackSend(message: '"Build Completed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"')
-          }
-        }
       }
     }
   }
