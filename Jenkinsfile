@@ -48,10 +48,7 @@ pipeline {
         }
         stage('Notify') {
           steps {
-            script {
-              slackSend "Build Completed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-            }
-
+            slackSend(message: '"Build Completed - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"')
           }
         }
       }
