@@ -36,7 +36,7 @@ pipeline {
     }
     stage('Push') {
       environment {
-        registryUrl = 'https://hub.docker.com'
+        registryUrl = 'https://cloud.docker.com'
         credentialsId = 'hub-jamesbowling'
       }
       steps {
