@@ -37,7 +37,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        docker.withRegistry("${registryUrl}", "${credentialsId}") {
+        docker.withRegistry([url: "${registryUrl}", credentialsId: "${credentialsId}"]) {
           customImage.push("${VERSION}${env.BUILD_ID}")
         }
       }
