@@ -1,7 +1,7 @@
 pipeline {
   agent {
     node {
-      label 'jenkins-slave'
+      label 'docker-build'
     }
 
   }
@@ -10,10 +10,8 @@ pipeline {
       steps {
         script {
           if (! env.VERSION) {
-            // calculate GIT lastest commit short-hash
             gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
             shortCommitHash = gitCommitHash.take(7)
-            // calculate a sample version tag
             VERSION = shortCommitHash
           }
         }
@@ -31,12 +29,16 @@ pipeline {
     stage('Verify') {
       steps {
         script {
-          customImage.run("", "version --client")
+          customImage.withRun("", "version --client")
         }
 
       }
     }
     stage('Push') {
+      environment {
+        registryUrl = 'https://hub.docker.com'
+        credentialsId = 'hub-jamesbowling'
+      }
       steps {
         script {
           docker.withRegistry("${registryUrl}", "${credentialsId}") {
@@ -50,7 +52,7 @@ pipeline {
   environment {
     customImage = ''
     VERSION = ''
-    registryUrl = 'https://hub.docker.com'
+    registryUrl = 'https://cloud.docker.com'
     credentialsId = 'hub-jamesbowling'
   }
 }
