@@ -22,14 +22,14 @@ pipeline {
       steps {
         git(url: 'https://github.com/vsential/k8s-cli', branch: 'jenkins-dev', changelog: true)
         script {
-          ${customImage} = docker.build("k8s-cli:${VERSION}${env.BUILD_ID}")
+          customImage = docker.build("k8s-cli:${VERSION}${env.BUILD_ID}")
         }
       }
     }
     stage('Verify') {
       steps {
         script {
-          ${customImage}.run("version --client")
+          customImage.run("version --client")
         }
       }
     }
@@ -37,7 +37,7 @@ pipeline {
       steps {
         withRegistry(url: "https://hub.docker.com", credentialsId: 'hub-jamesbowling')
         script {
-          ${customImage}.push(${env.BUILD_ID})
+          customImage.push(${env.BUILD_ID})
         }
       }
     }
