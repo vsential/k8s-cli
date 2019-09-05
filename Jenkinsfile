@@ -26,7 +26,6 @@ pipeline {
     }
     stage('Build') {
       steps {
-        git(url: 'https://github.com/vsential/k8s-cli', branch: 'jenkins-dev', changelog: true)
         script {
           customImage = docker.build("k8s-cli:${VERSION}")
         }
@@ -42,7 +41,7 @@ pipeline {
     stage('Push') {
       steps {
         script {
-          docker.withRegistry(${registryUrl}, ${credentialsId}) {
+          docker.withRegistry(registryUrl, credentialsId) {
             customImage.push("${VERSION}")
           }
         }
