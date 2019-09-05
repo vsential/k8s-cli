@@ -37,8 +37,11 @@ pipeline {
     }
     stage('Push') {
       steps {
-        docker.withRegistry([url: "${registryUrl}", credentialsId: "${credentialsId}"]) {
-          customImage.push("${VERSION}${env.BUILD_ID}")
+        script {
+          docker.withRegistry("${registryUrl}", "${credentialsId}") {
+            customImage.build("k8s-cli:${VERSION}${env.BUILD_ID}")
+            customImage.push()
+          }
         }
       }
     }
