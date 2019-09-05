@@ -29,7 +29,7 @@ pipeline {
     stage('Verify') {
       steps {
         script {
-          customImage.inside("kubectl version --client")
+          customImage.run("", "version --client")
         }
 
       }
