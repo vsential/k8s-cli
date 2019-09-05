@@ -35,13 +35,22 @@ pipeline {
       }
     }
     stage('Push') {
-      steps {
-        script {
-          docker.withRegistry('', env.credentialsId) {
-            customImage.push()
+      parallel {
+        stage('Push') {
+          steps {
+            script {
+              docker.withRegistry('', env.credentialsId) {
+                customImage.push()
+              }
+            }
+
           }
         }
-
+        stage('Notify') {
+          steps {
+            slackSend(token: 'N4xm9fsLwRe0cpKW10JJGRUT', teamDomain: 'vsential', channel: '#jenkins-notif', username: 'jenkins')
+          }
+        }
       }
     }
   }
