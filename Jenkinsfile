@@ -56,6 +56,5 @@ pipeline {
     credentialsId = 'hub-jamesbowling'
     registry = 'jamesbowling'
     image = 'k8s-cli'
-    hubCredentials = credentials('hub-jamesbowling')
   }
 }
