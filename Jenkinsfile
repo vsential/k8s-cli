@@ -44,6 +44,14 @@ pipeline {
 
       }
     }
+    stage('Cleanup') {
+      steps {
+        script {
+          TOKEN = `curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"username":"${hubCredentials_USR}","password":"${hubCredentials_PSW}"}' https://hub.docker.com/v2/users/login/ | grep \"token\" | jq -r .token`
+          curl -i -X "DELETE" -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${registry}/${image}/tags/${version}/
+        }
+      }
+    }
   }
   environment {
     customImage = ''
@@ -51,5 +59,6 @@ pipeline {
     credentialsId = 'hub-jamesbowling'
     registry = 'jamesbowling'
     image = 'k8s-cli'
+    hubCredentials = credentials('hub-jamesbowling')
   }
 }
