@@ -43,9 +43,8 @@ jobs:
         - docker push $IMAGE_NAME:latest
     - stage: Cleanup
       script:
-        #- TOKEN = $(curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"username":"$REGISTRY_USER","password":"$REGISTRY_PASS"}' https://hub.docker.com/v2/users/login/)
-        #- curl -i -X "DELETE" -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/$REGISTRY_USER/$IMAGE_NAME/tags/$TRAVIS_COMMIT/
         - echo "NOT IMPLEMENTED. NEEDS SOME LOVE!!!!"
 
 notifications:
-  slack: vsential:KdgOEZF3gFYySisvG27burMK
+  slack:
+    secure: "RMUC1W5tIMmVlZb09oKLauLkDrcPEojqMcRk0syqSV/iCGYZNg8APm5WhdtMI0xe4P/YaaQG1ueTK3lbLji0HOX8O4wL+Oj+lbpQ4KyWAMd0gsuJj0KIlPZHde2uVD/h11nFeVgJVbt7Rhl1jpLz3Wq8ic50Y9M+7txxwp7/2uGg3WClOrf4iyz6VX8nx9AatPquero0zFWWUnQB/QKk2uzvFrXjGSMAo+rUNxKaQnEqeAB+pMAWPDJhxnFsiWWEQo0p43jzT2WwfuUhFLEMa8pq2CNujposJzaamf485KL7ev8Lac9Klpuxe0R6uG6vpBJl0YCwzDI0xHkwt8LImh/jWybEu6I1glx5K9EDdjhJzojieFcn4jxIPynipJIIfmBv+FMuoxv5bN+EIg0khcPicfOSso5+EDb1nNzM3jtH+PjjWxbGslChpOwMR8Ssqy8ha8gf4vLEF3IiEP9jczM1NUD4ZdgJaiFBUL0wiRxBo+wC/U88qqtHW4BX8WEsykNpCvoDUnS465TMAVe1YhoTVeDWA70hHxnm2sJIGr0fD0Tj4kI2/6gKTcyK4F9gn93qDNGZ7JdQFhZqfjmMReZotr0GQ2bc8ZKVJizJ9erRgg37osVpN0+0lt1vXdDTDduvDgE2IzOcKETHJZh6KBID2akSSQFTE36vIVyLEEY="
