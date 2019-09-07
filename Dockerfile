@@ -1,7 +1,6 @@
 FROM alpine:3.10.2
 ARG buildTime
 
-ENV buildTime = $buildTime
 ENV KUBE_LATEST_VERSION="v1.15.3"
 
 LABEL maintainer="James Bowling <jbowling@vmware.com>"
