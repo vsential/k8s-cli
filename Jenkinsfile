@@ -12,7 +12,7 @@ pipeline {
           if (! env.version) {
             gitCommitHash = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
             version = gitCommitHash          
-            c = docker.build("${registry}/${image}")
+            c = docker.build("${registry}/${image}", "--label org.opencontainers.image.created=$(`date --iso-8601=ns`)")
           }
         }
 
