@@ -9,7 +9,6 @@ env:
 
 stages:
   - name: Build
-  - name: Test
   - name: Push
   - name: Push latest
 
@@ -18,8 +17,6 @@ jobs:
     - stage: Build
       script:
         - docker build -t $IMAGE_NAME .
-    - stage: Test
-      script:
         - docker run $IMAGE_NAME:$TRAVIS_COMMIT version --client
     - stage: Push
       if: branch != master
