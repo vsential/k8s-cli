@@ -12,7 +12,7 @@ pipeline {
           if (! env.version) {
             gitCommitHash = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
             version = gitCommitHash          
-            c = docker.build("${registry}/${image}", "--build-args buildTime=`date --iso-8601=ns`")
+            c = docker.build("${registry}/${image}", "--build-arg buildTime=`date -Iseconds`")
           }
         }
 
