@@ -1,49 +1,31 @@
-language: minimal
-os:
-  - linux
+sudo: false
 dist: bionic
-services:
-  - docker
-env:
-  - VERSION=v1.15.3
 
 stages:
   - name: Build
-  - name: Test
-  - name: Deploy
-  - name: Deploy latest
-  - name: Cleanup
+  - name: Push
 
 jobs:
   include:
     - stage: Build
       script:
         - docker build -t $IMAGE_NAME .
-        - git_sha="$(git rev-parse --short HEAD)"
-        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"        
-        - docker tag $IMAGE_NAME $IMAGE_NAME:$TRAVIS_COMMIT
-        - docker push $IMAGE_NAME:$TRAVIS_COMMIT
-    - stage: Test
-      script:
-        - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker run $IMAGE_NAME:$TRAVIS_COMMIT version --client
-    - stage: Deploy
+        - docker run $IMAGE_NAME version --client
+    - stage: Push
       if: branch != master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
-        - docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:$TRAVIS_BRANCH        
+        - docker build -t travis-ci-build --build-arg buildTime=`date -Iseconds` .
+        - docker images
+        - docker tag travis-ci-build $IMAGE_NAME:$TRAVIS_BRANCH
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
-    - stage: Deploy latest
       if: branch = master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker pull $IMAGE_NAME:$TRAVIS_COMMIT
-        - docker tag $IMAGE_NAME:$TRAVIS_COMMIT $IMAGE_NAME:latest
+        - docker build -t travis-ci-build --build-arg buildTime=`date -Iseconds` .
+        - docker images
+        - docker tag travis-ci-build $IMAGE_NAME:latest
         - docker push $IMAGE_NAME:latest
-    - stage: Cleanup
-      script:
-        - echo "NOT IMPLEMENTED. NEEDS SOME LOVE!!!!"
 
 notifications:
   slack:
