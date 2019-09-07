@@ -15,14 +15,14 @@ jobs:
       if: branch != master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker build -t travis-ci-build . --label org.opencontainers.image.created=$(`date --iso-8601=ns`)
+        - docker build -t travis-ci-build --build-arg buildTime=`date -Iseconds` .
         - docker images
         - docker tag travis-ci-build $IMAGE_NAME:$TRAVIS_BRANCH
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
       if: branch = master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker build -t travis-ci-build . --label org.opencontainers.image.created=$(`date --iso-8601=ns`)
+        - docker build -t travis-ci-build --build-arg buildTime=`date -Iseconds` .
         - docker images
         - docker tag travis-ci-build $IMAGE_NAME:latest
         - docker push $IMAGE_NAME:latest
