@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+TOKEN = `curl -i -X POST -H "Content-Type: application/json" -H "Accept: application/json" -d '{"username":"$REGISTRY_USER","password":"$REGISTRY_PASS"}' https://hub.docker.com/v2/users/login/ | grep \"token\" | jq -r .token`
+curl -i -X "DELETE" -H "Accept: application/json" -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/$REGISTRY_USER/$IMAGE_NAME/tags/$TRAVIS_COMMIT/

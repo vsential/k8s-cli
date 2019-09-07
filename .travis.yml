@@ -44,6 +44,7 @@ jobs:
     - stage: Cleanup
       script:
         - echo "NOT IMPLEMENTED. NEEDS SOME LOVE!!!!"
+        - bash scripts/cleanup.sh $REGISTRY_USER $REGISTRY_PASS $IMAGE_NAME $TRAVIS_COMMIT
 
 notifications:
   slack:

@@ -46,7 +46,7 @@ pipeline {
     }
     stage('Cleanup') {
       steps {
-        sh([script: 'echo NOT IMPLEMENTED YET! NEED TO DO!'])
+        sh 'echo NOT IMPLEMENTED YET! NEED TO DO!'
       }
     }
   }
