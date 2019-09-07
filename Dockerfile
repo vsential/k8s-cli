@@ -1,6 +1,9 @@
 FROM alpine:3.10.2
 ARG buildTime
 
+ENV buildTime = $buildTime
+ENV KUBE_LATEST_VERSION="v1.15.3"
+
 LABEL maintainer="James Bowling <jbowling@vmware.com>"
 
 # Metadata
@@ -11,8 +14,6 @@ LABEL org.opencontainers.image.title="k8s-cli" \
       org.opencontainers.image.licenses="MIT License" \
       org.opencontainers.image.url="https://github.com/vsential/k8s-cli" \
       org.opencontainers.image.created=${buildTime}
-
-ENV KUBE_LATEST_VERSION="v1.15.3"
 
 RUN apk add --update ca-certificates \
  && apk add --update -t deps curl \
