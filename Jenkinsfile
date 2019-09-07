@@ -13,6 +13,7 @@ pipeline {
             gitCommitHash = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
             version = gitCommitHash          
             c = docker.build("${registry}/${image}")
+          }
         }
 
       }
