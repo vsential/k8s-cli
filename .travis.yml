@@ -1,11 +1,5 @@
-language: minimal
-os:
-  - linux
+sudo: false
 dist: bionic
-services:
-  - docker
-env:
-  - VERSION=v1.15.3
 
 stages:
   - name: Build
@@ -17,19 +11,22 @@ jobs:
     - stage: Build
       script:
         - docker build -t $IMAGE_NAME .
-        - docker run $IMAGE_NAME:$TRAVIS_COMMIT version --client
+        - docker run $IMAGE_NAME version --client
     - stage: Push
       if: branch != master
       script:
-        - docker build -t $IMAGE_NAME:$TRAVIS_BRANCH .
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+        - docker build -t travis-ci-build .
+        - docker images
+        - docker tag travis-ci-build $IMAGE_NAME:$TRAVIS_BRANCH
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
     - stage: Push latest
       if: branch = master
       script:
-        - docker build -t $IMAGE_NAME:$TRAVIS_BRANCH
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
-        - docker tag $IMAGE_NAME:$TRAVIS_BRANCH $IMAGE_NAME:latest
+        - docker build -t travis-ci-build .
+        - docker images
+        - docker tag travis-ci-build $IMAGE_NAME:latest
         - docker push $IMAGE_NAME:latest
 
 notifications:
