@@ -6,22 +6,13 @@ pipeline {
 
   }
   stages {
-    stage('Prep') {
-      steps {
-        script {
-          if (! env.version) {
-            gitCommitHash = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-            shortCommitHash = gitCommitHash.take(7)
-            version = shortCommitHash
-          }
-        }
-
-      }
-    }
     stage('Build') {
       steps {
         script {
-          customImage = docker.build("${registry}/${image}:${version}")
+          if (! env.version) {
+            gitCommitHash = sh(returnStdout: true, script: 'git rev-parse --short HEAD')
+            version = gitCommitHash          
+            c = docker.build("${registry}/${image}")
         }
 
       }
@@ -29,7 +20,7 @@ pipeline {
     stage('Verify') {
       steps {
         script {
-          customImage.run("", "version --client")
+          c.run("", "version --client")
         }
 
       }
@@ -38,20 +29,17 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', env.credentialsId) {
-            customImage.push()
+            c.push("${version}")
+            if (env.BRANCH_NAME == 'master') {
+              c.push('latest')
+            }
           }
         }
 
       }
     }
-    stage('Cleanup') {
-      steps {
-        sh 'echo NOT IMPLEMENTED YET! NEED TO DO!'
-      }
-    }
   }
   environment {
-    customImage = ''
     version = ''
     credentialsId = 'hub-jamesbowling'
     registry = 'jamesbowling'

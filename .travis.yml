@@ -4,7 +4,6 @@ dist: bionic
 stages:
   - name: Build
   - name: Push
-  - name: Push latest
 
 jobs:
   include:
@@ -20,7 +19,6 @@ jobs:
         - docker images
         - docker tag travis-ci-build $IMAGE_NAME:$TRAVIS_BRANCH
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
-    - stage: Push latest
       if: branch = master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
