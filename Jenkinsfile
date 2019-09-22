@@ -30,8 +30,11 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', env.credentialsId) {
-            c.push("${version}")
-            c.push("${env.BRANCH_NAME}")
+            if (env.BRANCH_NAME == 'devel') {
+              println 'Development branch...skipping push...'
+            } else {
+              c.push("${env.BRANCH_NAME}")
+            }
             if (env.BRANCH_NAME == 'master') {
               c.push('latest')
             }
