@@ -11,7 +11,7 @@ jobs:
       script:
         - docker build -t $IMAGE_NAME .
         - docker run $IMAGE_NAME version --client
-    - stage: Push
+    - stage: Push (Release)
       if: branch != master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
@@ -19,6 +19,7 @@ jobs:
         - docker images
         - docker tag travis-ci-build $IMAGE_NAME:$TRAVIS_BRANCH
         - docker push $IMAGE_NAME:$TRAVIS_BRANCH
+    - stage: Push (Latest)
       if: branch = master
       script:
         - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
