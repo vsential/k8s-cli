@@ -7,7 +7,6 @@
 * `v1.16.3`, `latest`    [(v1.16.3/Dockerfile)](https://github.com/vsential/k8s-cli/blob/v1.16.3/Dockerfile)*
 * `v1.15.4`,    [(v1.15.4/Dockerfile)](https://github.com/vsential/k8s-cli/blob/v1.15.4/Dockerfile)
 * `v1.14.6`,    [(v1.14.6/Dockerfile)](https://github.com/vsential/k8s-cli/blob/v1.14.6/Dockerfile)
-* `v1.13.10`,    [(v1.13.10/Dockerfile)](https://github.com/vsential/k8s-cli/blob/v1.13.10/Dockerfile)
 
 
 ## Overview
