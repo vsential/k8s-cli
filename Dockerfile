@@ -1,7 +1,7 @@
 FROM alpine:3.10.2
 ARG buildTime
 
-ENV KUBE_LATEST_VERSION="v1.16.0"
+ENV KUBE_LATEST_VERSION="v1.16.3"
 
 LABEL maintainer="James Bowling <jbowling@vmware.com>"
 
@@ -9,7 +9,7 @@ LABEL maintainer="James Bowling <jbowling@vmware.com>"
 LABEL org.opencontainers.image.title="k8s-cli" \
       org.opencontainers.image.description="Provides kubectl client" \
       org.opencontainers.image.authors="James Bowling <jbowling@vmware.com>" \
-      org.opencontainers.image.version="v1.16.0" \
+      org.opencontainers.image.version="v1.16.3" \
       org.opencontainers.image.licenses="MIT License" \
       org.opencontainers.image.url="https://github.com/vsential/k8s-cli" \
       org.opencontainers.image.created=${buildTime}
